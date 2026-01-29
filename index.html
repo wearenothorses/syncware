@@ -2,697 +2,623 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Syncware</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <body oncontextmenu="return false;">
     <style>
+    ::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#0d0d0d}
+::-webkit-scrollbar-thumb{background:#2b2b2b;border-radius:6px}
+::-webkit-scrollbar-thumb:hover{background:#3a3a3a}
+html{scrollbar-width:thin;scrollbar-color:#2b2b2b #0d0d0d}
         *{margin:0;padding:0;box-sizing:border-box}
-        ::selection{background:#a855f7;color:#000}
-        ::-webkit-scrollbar{width:8px}
-        ::-webkit-scrollbar-track{background:#0a0a0a}
-        ::-webkit-scrollbar-thumb{background:#1a1a1a;border-radius:0}
-        ::-webkit-scrollbar-thumb:hover{background:#252525}
-        html{scrollbar-width:thin;scrollbar-color:#1a1a1a #0a0a0a}
-        body{font-family:'Inter',system-ui,sans-serif;background:#0a0a0a;color:#b0b0b0;font-size:15px;line-height:1.6;overflow-x:hidden}
-        #particles{position:fixed;inset:0;z-index:0;pointer-events:none}
-        .wrapper{position:relative;z-index:1}
-        .container{max-width:900px;margin:0 auto;padding:0 24px}
+        ::selection{background:#a855f7;color:#fff}
+        body{font-family:'Inter',sans-serif;background:#0e0e0e;color:#888;font-size:14px}
+        #bgcanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1}
+        a{color:inherit;text-decoration:none}
+        .container{max-width:860px;margin:0 auto;padding:0 20px}
         
-        .navbar{position:sticky;top:0;background:rgba(10,10,10,.9);backdrop-filter:blur(12px);border-bottom:1px solid #1a1a1a;z-index:100}
-        .navbar .container{display:flex;justify-content:space-between;align-items:center;height:56px}
-        .logo{font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;color:#a855f7;text-decoration:none;letter-spacing:-0.5px}
-        .logo:hover{text-shadow:0 0 10px rgba(168,85,247,.5)}
-        .hamburger{display:none;background:none;border:1px solid #252525;color:#666;cursor:pointer;padding:6px 10px;font-size:12px;font-family:'JetBrains Mono',monospace}
-        .hamburger:hover{border-color:#a855f7;color:#a855f7}
-        .nav-links{display:flex;gap:4px}
-        .nav-links a{color:#666;font-family:'JetBrains Mono',monospace;font-size:12px;padding:8px 14px;text-decoration:none;border:1px solid transparent;transition:all .15s}
-        .nav-links a:hover{color:#a855f7;border-color:#1a1a1a}
-        .nav-links a.active{color:#a855f7;background:#0f0f0f;border-color:#1a1a1a}
+        nav{background:rgba(14,14,14,.85);backdrop-filter:blur(10px);border-bottom:1px solid #1c1c1c;position:sticky;top:0;z-index:99}
+        .navinner{display:flex;justify-content:space-between;align-items:center;height:52px}
+        .navlogo{font-weight:600;font-size:15px;color:#e5e5e5}
+        .navlogo:hover{color:#a855f7}
+        .navlinks{display:flex;gap:2px}
+        .navlinks a{padding:7px 14px;font-size:13px;color:#666;border-radius:6px}
+        .navlinks a:hover{color:#bbb}
+        .navlinks a.active{background:#1a1a1a;color:#ddd}
+        .burgerbtn{display:none;background:none;border:none;color:#888;cursor:pointer}
+        .burgerbtn svg{width:22px;height:22px}
         
-        .page{display:none;min-height:calc(100vh - 56px);padding:60px 0 100px}
-        .page.active{display:block;animation:pagein .3s ease}
-        @keyframes pagein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+        .view{display:none;padding:45px 0 70px;min-height:calc(100vh - 52px)}
+        .view.current{display:block}
         
-        .hero{padding:50px 0 70px}
-        .hero-title{font-family:'JetBrains Mono',monospace;font-size:clamp(28px,6vw,48px);font-weight:600;color:#fff;line-height:1.2;margin-bottom:20px}
-        .hero-title .accent{color:#a855f7}
-        .hero-desc{font-size:15px;color:#666;max-width:400px;margin-bottom:32px;line-height:1.7}
-        .hero-desc strong{color:#888}
-        .hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+        .hero{margin-bottom:45px}
+        .hero h1{font-size:clamp(26px,5vw,38px);color:#f5f5f5;font-weight:600;margin-bottom:10px;line-height:1.2}
+        .hero h1 span{color:#a855f7}
+        .hero>p{color:#555;font-size:15px;max-width:400px;margin-bottom:22px}
+        .herobtns{display:flex;gap:10px;flex-wrap:wrap}
         
-        .btn{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;padding:12px 20px;border:1px solid;cursor:pointer;transition:all .15s;text-decoration:none}
-        .btn .lucide{width:14px;height:14px}
-        .btn svg.icon{width:14px;height:14px;fill:currentColor}
-        .btn-primary{background:#a855f7;color:#000;border-color:#a855f7}
-        .btn-primary:hover{background:#9333ea;border-color:#9333ea;box-shadow:0 0 20px rgba(168,85,247,.3)}
-        .btn-secondary{background:transparent;color:#666;border-color:#252525}
-        .btn-secondary:hover{color:#a855f7;border-color:#a855f7}
-        .btn-discord{background:#5865f2;color:#fff;border-color:#5865f2}
-        .btn-discord:hover{background:#4752c4;border-color:#4752c4}
-        .btn-gold{background:#f59e0b;color:#000;border-color:#f59e0b}
-        .btn-gold:hover{background:#d97706;border-color:#d97706}
+        .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;font-size:13px;font-weight:500;border-radius:8px;border:none;cursor:pointer;transition:background .15s}
+        .btn svg{width:15px;height:15px}
+        .btn-purple{background:#a855f7;color:#fff}
+        .btn-purple:hover{background:#9333ea}
+        .btn-dark{background:#181818;color:#888;border:1px solid #262626}
+        .btn-dark:hover{background:#202020;color:#aaa}
+        .btn-yellow{background:#d97706;color:#000}
+        .btn-yellow:hover{background:#b45309}
         
-        .stats-row{display:flex;gap:48px;padding:40px 0;border-top:1px solid #1a1a1a;border-bottom:1px solid #1a1a1a;margin-bottom:60px}
-        .stat-item .stat-num{font-family:'JetBrains Mono',monospace;font-size:32px;font-weight:600;color:#a855f7}
-        .stat-item .stat-label{font-size:11px;color:#444;text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+        .counters{display:flex;gap:36px;padding:28px 0;border-top:1px solid #1a1a1a;border-bottom:1px solid #1a1a1a;margin-bottom:45px}
+        .counter b{font-size:26px;color:#a855f7;display:block}
+        .counter small{font-size:10px;color:#444;text-transform:uppercase;letter-spacing:.5px}
         
-        .section{margin-bottom:50px}
-        .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid #1a1a1a}
-        .section-header.clickable{cursor:pointer}
-        .section-header.clickable:hover .section-title{color:#a855f7}
-        .section-title{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:#444}
-        .section-arrow{color:#333;transition:transform .2s;font-size:10px}
-        .section-arrow.open{transform:rotate(180deg)}
+        .sect{margin-bottom:35px}
+        .secthead{display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;border-bottom:1px solid #1a1a1a;margin-bottom:14px}
+        .secthead.canclick{cursor:pointer}
+        .secthead.canclick:hover h3{color:#a855f7}
+        .secthead h3{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.7px;color:#444}
+        .secthead .arrow{font-size:9px;color:#333;transition:transform .2s}
+        .secthead .arrow.flipped{transform:rotate(180deg)}
         
-        .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#1a1a1a;max-height:0;opacity:0;overflow:hidden;transition:all .3s}
-        .features-grid.open{max-height:500px;opacity:1}
-        .feature-box{background:#0f0f0f;padding:28px 24px}
-        .feature-box h4{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:#ccc;margin-bottom:8px;display:flex;align-items:center;gap:8px}
-        .feature-box h4 .lucide{width:14px;height:14px;color:#a855f7}
-        .feature-box p{font-size:13px;color:#555;line-height:1.5}
+        .reasons{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;overflow:hidden;max-height:0;opacity:0;transition:all .2s}
+        .reasons.visible{max-height:600px;opacity:1}
+        .reason{background:#131313;border:1px solid #1c1c1c;border-radius:10px;padding:18px}
+        .reason h4{font-size:13px;color:#c0c0c0;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+        .reason h4 svg{width:14px;height:14px;color:#a855f7}
+        .reason p{font-size:12px;color:#555;line-height:1.5}
         
-        .credits{text-align:center;padding:50px 0;border-top:1px solid #1a1a1a;margin-top:40px}
-        .credits-text{font-family:'JetBrains Mono',monospace;font-size:12px;color:#333}
-        .credits-text span{color:#a855f7}
-        .social-links{display:flex;justify-content:center;gap:8px;margin-top:16px}
-        .social-icon{width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:#111;border:1px solid #1a1a1a;color:#444;transition:.15s}
-        .social-icon:hover{color:#a855f7;border-color:#a855f7}
-        .social-icon svg{width:16px;height:16px;fill:currentColor}
+        .credits{text-align:center;padding:35px 0;margin-top:20px;border-top:1px solid #1a1a1a}
+        .credits p{font-size:12px;color:#333}
+        .credits b{color:#777}
+        .socials{display:flex;justify-content:center;gap:6px;margin-top:10px}
+        .socialicon{width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:#161616;border:1px solid #222;border-radius:6px;color:#444}
+        .socialicon:hover{color:#a855f7;border-color:#a855f7}
+        .socialicon svg{width:13px;height:13px;fill:currentColor}
         
-        .game-tabs{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
-        .game-tab{background:#111;border:1px solid #1a1a1a;color:#555;font-family:'JetBrains Mono',monospace;font-size:11px;padding:6px 14px;cursor:pointer;transition:all .15s}
-        .game-tab:hover{color:#888;border-color:#252525}
-        .game-tab.active{background:#a855f7;color:#000;border-color:#a855f7}
-        .games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
-        .game-card{background:#111;border:1px solid #1a1a1a;overflow:hidden;transition:all .2s;text-decoration:none;display:block}
-        .game-card:hover{border-color:#a855f7;transform:translateY(-2px)}
-        .game-card img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#0a0a0a;filter:grayscale(20%)}
-        .game-card:hover img{filter:grayscale(0%)}
-        .game-card .game-info{padding:14px}
-        .game-card .game-cat{font-family:'JetBrains Mono',monospace;font-size:9px;color:#444;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
-        .game-card .game-name{font-size:13px;font-weight:500;color:#ccc;margin-bottom:6px}
-        .game-card .game-status{font-family:'JetBrains Mono',monospace;font-size:10px;color:#22c55e;display:flex;align-items:center;gap:6px}
-        .game-card .game-status::before{content:'';width:6px;height:6px;background:#22c55e;border-radius:50%;animation:pulse 2s infinite}
-        .game-card .game-status.updating{color:#f59e0b}
-        .game-card .game-status.updating::before{background:#f59e0b}
-        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-        .games-loading{grid-column:1/-1;text-align:center;padding:60px;color:#333;font-family:'JetBrains Mono',monospace;font-size:12px}
-        .games-empty{grid-column:1/-1;text-align:center;padding:50px;color:#333;font-size:13px}
+        .gametabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px}
+        .gametab{padding:5px 12px;font-size:11px;background:#151515;border:1px solid #222;color:#555;border-radius:5px;cursor:pointer}
+        .gametab:hover{color:#888}
+        .gametab.selected{background:#a855f7;color:#fff;border-color:#a855f7}
+        .gamegrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:12px}
+        .gamecard{background:#131313;border:1px solid #1c1c1c;border-radius:10px;overflow:hidden;display:block}
+        .gamecard:hover{border-color:#2a2a2a}
+        .gamecard img{width:100%;aspect-ratio:16/9;object-fit:cover;background:#0a0a0a}
+        .gamecard .cardinfo{padding:11px}
+        .gamecard .cardcat{font-size:9px;color:#444;text-transform:uppercase;margin-bottom:2px}
+        .gamecard .cardname{font-size:12px;color:#aaa;margin-bottom:4px}
+        .gamecard .cardstatus{font-size:10px;color:#22c55e;display:flex;align-items:center;gap:4px}
+        .gamecard .cardstatus::before{content:'';width:5px;height:5px;background:#22c55e;border-radius:50%}
+        .gamecard .cardstatus.notworking{color:#eab308}
+        .gamecard .cardstatus.notworking::before{background:#eab308}
+        .gamenotice{grid-column:1/-1;padding:40px;text-align:center;color:#333}
         
-        .premium-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
-        .premium-left h2{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:600;color:#fff;line-height:1.3;margin-bottom:16px}
-        .premium-left p{color:#555;font-size:14px;line-height:1.7}
-        .premium-card{background:#111;border:1px solid #1a1a1a;padding:32px}
-        .premium-price{font-family:'JetBrains Mono',monospace;font-size:42px;font-weight:600;color:#f59e0b;margin-bottom:4px}
-        .premium-price span{font-size:14px;color:#444}
-        .premium-note{font-size:12px;color:#333;margin-bottom:28px;font-family:'JetBrains Mono',monospace}
-        .premium-perks{list-style:none;margin-bottom:28px}
-        .premium-perks li{font-size:13px;color:#666;padding:12px 0;border-bottom:1px solid #1a1a1a;display:flex;align-items:center;gap:12px}
-        .premium-perks li .lucide{width:14px;height:14px;color:#a855f7}
+        .pricingwrap{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+        .pricingleft h2{font-size:22px;color:#eee;margin-bottom:8px}
+        .pricingleft p{color:#555;font-size:14px;line-height:1.6}
+        .pricingbox{background:#131313;border:1px solid #1f1f1f;border-radius:12px;padding:22px}
+        .pricingamount{font-size:32px;font-weight:600;color:#d97706}
+        .pricingamount span{font-size:12px;color:#444;font-weight:400}
+        .pricingnote{font-size:11px;color:#333;margin-bottom:18px}
+        .pricinglist{list-style:none;margin-bottom:18px}
+        .pricinglist li{padding:9px 0;font-size:13px;color:#666;border-bottom:1px solid #1a1a1a;display:flex;align-items:center;gap:8px}
+        .pricinglist li svg{width:14px;height:14px;color:#22c55e}
         
-        .providers-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-        .provider-card{background:#111;border:1px solid #1a1a1a;padding:28px;position:relative}
-        .provider-card:hover{border-color:#252525}
-        .provider-card.recommended{border-color:#a855f7;background:rgba(168,85,247,.02)}
-        .provider-badge{position:absolute;top:-8px;left:20px;background:#a855f7;color:#000;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:4px 10px}
-        .provider-header{display:flex;align-items:center;gap:14px;margin-bottom:20px}
-        .provider-logo{width:42px;height:42px;border-radius:8px;object-fit:cover;background:#0a0a0a}
-        .provider-name{font-size:18px;font-weight:600;color:#ccc}
-        .provider-details{margin-bottom:24px}
-        .provider-detail{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #1a1a1a;font-size:12px;color:#555}
-        .provider-detail .lucide{width:14px;height:14px;color:#333}
+        .keyproviders{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        .keyprovider{background:#131313;border:1px solid #1f1f1f;border-radius:10px;padding:18px;position:relative}
+        .keyprovider.recommended{border-color:#7c3aed}
+        .keyprovider .badge{position:absolute;top:-7px;left:14px;background:#a855f7;color:#fff;font-size:9px;font-weight:600;padding:2px 7px;border-radius:4px}
+        .keyprovider .kphead{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+        .keyprovider .kplogo{width:32px;height:32px;border-radius:6px;background:#1a1a1a}
+        .keyprovider .kpname{font-size:14px;color:#bbb}
+        .keyprovider .kpdetails{margin-bottom:14px}
+        .keyprovider .kpdet{padding:7px 0;border-bottom:1px solid #1a1a1a;font-size:12px;color:#555;display:flex;align-items:center;gap:7px}
+        .keyprovider .kpdet svg{width:12px;height:12px;color:#333}
         
-        .script-box{background:#0f0f0f;border:1px solid #1a1a1a;overflow:hidden}
-        .script-header{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:#111;border-bottom:1px solid #1a1a1a}
-        .script-header span{font-family:'JetBrains Mono',monospace;font-size:10px;color:#333}
-        .copy-btn{background:none;border:1px solid #1a1a1a;color:#444;font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 10px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:.15s}
-        .copy-btn:hover{background:#1a1a1a;color:#a855f7;border-color:#252525}
-        .copy-btn .lucide{width:12px;height:12px}
-        .script-code{padding:16px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.8;overflow-x:auto;color:#666}
-        .script-code .line{display:block}
-        .script-code .var{color:#c084fc}
-        .script-code .str{color:#a855f7}
-        .script-code .func{color:#e879f9}
-        .script-code .prop{color:#888}
+        .codewrap{background:#111;border:1px solid #1c1c1c;border-radius:8px;overflow:hidden}
+        .codewraptop{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#151515;border-bottom:1px solid #1a1a1a}
+        .codewraptop span{font-size:10px;color:#333}
+        .copybtn{background:#1a1a1a;border:1px solid #282828;color:#555;font-size:10px;padding:4px 9px;border-radius:4px;cursor:pointer;display:flex;align-items:center;gap:4px}
+        .copybtn:hover{color:#a855f7;border-color:#a855f7}
+        .copybtn svg{width:11px;height:11px}
+        .codeblock{padding:12px;font-family:monospace;font-size:12px;color:#666;overflow-x:auto;white-space:pre}
+        .codeblock .cv{color:#c084fc}
+        .codeblock .cs{color:#a855f7}
         
-        .collapse-content{max-height:0;opacity:0;overflow:hidden;transition:all .3s}
-        .collapse-content.open{max-height:500px;opacity:1}
-        .video-wrapper{position:relative;padding-bottom:56.25%;background:#0a0a0a;border:1px solid #1a1a1a}
-        .video-wrapper iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+        .collapsecontent{max-height:0;opacity:0;overflow:hidden;transition:all .2s}
+        .collapsecontent.visible{max-height:350px;opacity:1}
+        .videowrap{position:relative;padding-bottom:56.25%;background:#0a0a0a;border:1px solid #1a1a1a;border-radius:8px;overflow:hidden}
+        .videowrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
         
-        .sidebar{position:fixed;top:0;right:0;width:260px;height:100%;background:#0f0f0f;border-left:1px solid #1a1a1a;z-index:101;transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column}
-        .sidebar.open{transform:translateX(0)}
-        .sidebar-header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid #1a1a1a}
-        .sidebar-header span{font-family:'JetBrains Mono',monospace;font-size:12px;color:#666}
-        .sidebar-close{background:none;border:none;color:#444;cursor:pointer;padding:4px}
-        .sidebar-close:hover{color:#a855f7}
-        .sidebar-close .lucide{width:18px;height:18px}
-        .sidebar-nav{flex:1;padding:12px}
-        .sidebar-nav a{color:#555;font-family:'JetBrains Mono',monospace;font-size:13px;padding:12px 14px;display:flex;align-items:center;gap:10px;text-decoration:none;border:1px solid transparent;margin-bottom:4px;transition:all .15s}
-        .sidebar-nav a .lucide{width:16px;height:16px;color:#333}
-        .sidebar-nav a svg.discord-icon{width:16px;height:16px;fill:#333}
-        .sidebar-nav a:hover{color:#a855f7;border-color:#1a1a1a}
-        .sidebar-nav a:hover .lucide{color:#a855f7}
-        .sidebar-nav a:hover svg.discord-icon{fill:#a855f7}
-        .sidebar-nav a.active{color:#a855f7;background:#111;border-color:#1a1a1a}
-        .sidebar-nav a.active .lucide{color:#a855f7}
-        .sidebar-footer{padding:16px;border-top:1px solid #1a1a1a}
-        .sidebar-footer a{display:flex;align-items:center;justify-content:center;gap:8px;background:#5865f2;color:#fff;font-family:'JetBrains Mono',monospace;font-size:11px;padding:10px;text-decoration:none;transition:all .15s}
-        .sidebar-footer a:hover{background:#4752c4}
-        .sidebar-footer a svg{width:14px;height:14px;fill:currentColor}
-        .overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;opacity:0;visibility:hidden;transition:all .25s}
+        .mobilemenu{position:fixed;top:0;right:0;width:250px;height:100%;background:#111;border-left:1px solid #1a1a1a;z-index:101;transform:translateX(100%);transition:transform .2s;display:flex;flex-direction:column}
+        .mobilemenu.open{transform:translateX(0)}
+        .mobileheader{display:flex;justify-content:space-between;align-items:center;padding:14px;border-bottom:1px solid #1a1a1a}
+        .mobileheader span{font-size:13px;color:#777}
+        .mobileheader button{background:none;border:none;color:#555;cursor:pointer}
+        .mobileheader button svg{width:18px;height:18px}
+        .mobilelinks{flex:1;padding:10px}
+        .mobilelinks a{display:flex;align-items:center;gap:9px;padding:11px 12px;font-size:14px;color:#666;border-radius:7px;margin-bottom:2px}
+        .mobilelinks a svg{width:16px;height:16px;color:#444}
+        .mobilelinks a:hover{background:#1a1a1a;color:#999}
+        .mobilelinks a.active{background:rgba(168,85,247,.1);color:#b07cf0}
+        .mobilelinks a.active svg{color:#a855f7}
+        .mobilefooter{padding:12px;border-top:1px solid #1a1a1a}
+        .mobilefooter a{display:flex;align-items:center;justify-content:center;gap:6px;background:#5865f2;color:#fff;font-size:12px;padding:9px;border-radius:7px}
+        .mobilefooter a svg{width:14px;height:14px;fill:#fff}
+        .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;opacity:0;visibility:hidden;transition:opacity .2s}
         .overlay.open{opacity:1;visibility:visible}
         
-        @media(max-width:768px){
-            .container{padding:0 16px}
-            .hamburger{display:block}
-            .nav-links{display:none}
-            .hero{padding:40px 0 50px}
-            .hero-title{font-size:clamp(24px,7vw,36px)}
-            .hero-btns{flex-direction:column}
-            .hero-btns .btn{width:100%;justify-content:center}
-            .stats-row{flex-wrap:wrap;gap:24px 40px;padding:32px 0}
-            .stat-item .stat-num{font-size:26px}
-            .features-grid{grid-template-columns:1fr}
-            .features-grid.open{max-height:none}
-            .games-grid{grid-template-columns:repeat(2,1fr);gap:12px}
-            .game-card .game-info{padding:12px}
-            .premium-grid{grid-template-columns:1fr;gap:28px}
-            .providers-grid{grid-template-columns:1fr}
-            .page{padding:40px 0 80px}
-            .section{margin-bottom:40px}
+        @media(max-width:700px){
+            .burgerbtn{display:block}
+            .navlinks{display:none}
+            .hero h1{font-size:24px}
+            .herobtns{flex-direction:column}
+            .herobtns .btn{justify-content:center}
+            .counters{flex-wrap:wrap;gap:18px 32px}
+            .reasons{grid-template-columns:1fr}
+            .reasons.visible{max-height:none}
+            .gamegrid{grid-template-columns:repeat(2,1fr)}
+            .pricingwrap,.keyproviders{grid-template-columns:1fr}
         }
-        @media(max-width:480px){
-            .games-grid{grid-template-columns:1fr}
-            .hero-title{font-size:24px}
-            .stats-row{gap:20px 30px}
-            .stat-item .stat-num{font-size:22px}
-            .sidebar{width:100%;max-width:280px}
-        }
-        @media(hover:none){
-            .btn-primary:hover{background:#a855f7;box-shadow:none}
-            .btn-primary:active{background:#9333ea}
-            .game-card:hover{transform:none}
-            .game-card:active{border-color:#a855f7}
+        @media(max-width:400px){
+            .gamegrid{grid-template-columns:1fr}
         }
     </style>
 </head>
-<body oncontextmenu="return false;">
+<body>
 
-<canvas id="particles"></canvas>
+<canvas id="bgcanvas"></canvas>
 
-<div class="overlay" id="overlay" onclick="closemenu()"></div>
-
-<div class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-        <span>// menu</span>
-        <button class="sidebar-close" onclick="closemenu()">
-            <i data-lucide="x"></i>
-        </button>
+<div class="overlay" id="overlay" onclick="closemobile()"></div>
+<div class="mobilemenu" id="mobilemenu">
+    <div class="mobileheader">
+        <span>menu</span>
+        <button onclick="closemobile()"><i data-lucide="x"></i></button>
     </div>
-    <div class="sidebar-nav">
-        <a class="active" href="#home" onclick="closemenu()">
-            <i data-lucide="terminal"></i>
-            home
-        </a>
-        <a href="#games" onclick="closemenu()">
-            <i data-lucide="gamepad-2"></i>
-            games
-        </a>
-        <a href="#premium" onclick="closemenu()">
-            <i data-lucide="zap"></i>
-            premium
-        </a>
-        <a href="#getkey" onclick="closemenu()">
-            <i data-lucide="key"></i>
-            get key
-        </a>
-        <a href="https://discord.gg/2TKUPWwnEY" target="_blank" onclick="closemenu()">
-            <svg class="discord-icon" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-            discord
-        </a>
+    <div class="mobilelinks">
+        <a class="active" href="#home" onclick="closemobile()"><i data-lucide="home"></i>Home</a>
+        <a href="#games" onclick="closemobile()"><i data-lucide="gamepad-2"></i>Games</a>
+        <a href="#premium" onclick="closemobile()"><i data-lucide="sparkles"></i>Premium</a>
+        <a href="#getkey" onclick="closemobile()"><i data-lucide="key"></i>Get Key</a>
     </div>
-    <div class="sidebar-footer">
+    <div class="mobilefooter">
         <a href="https://discord.gg/2TKUPWwnEY" target="_blank">
-            <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-            join server
+            <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+            discord
         </a>
     </div>
 </div>
 
-<div class="wrapper">
-    <nav class="navbar">
-        <div class="container">
-            <a class="logo" href="#home">syncware_</a>
-            <div class="nav-links">
-                <a class="active" href="#home">home</a>
-                <a href="#games">games</a>
-                <a href="#premium">premium</a>
-                <a href="#getkey">get key</a>
-                <a href="https://discord.gg/2TKUPWwnEY" target="_blank">discord</a>
-            </div>
-            <button class="hamburger" onclick="openmenu()">[menu]</button>
+<nav>
+    <div class="container navinner">
+        <a class="navlogo" href="#home">syncware</a>
+        <div class="navlinks">
+            <a class="active" href="#home">Home</a>
+            <a href="#games">Games</a>
+            <a href="#premium">Premium</a>
+            <a href="#getkey">Get Key</a>
+            <a href="https://discord.gg/2TKUPWwnEY" target="_blank">Discord</a>
         </div>
-    </nav>
+        <button class="burgerbtn" onclick="openmobile()"><i data-lucide="menu"></i></button>
+    </div>
+</nav>
 
-    <div id="home" class="page active">
+<main>
+    <div id="home" class="view current">
         <div class="container">
             <div class="hero">
-                <h1 class="hero-title">free scripts.<br><span class="accent">no bullshit.</span></h1>
-                <p class="hero-desc">updated regularly, works on most executors, and we don't ask for your firstborn child. <strong>just get a key and you're in.</strong></p>
-                <div class="hero-btns">
-                    <a class="btn btn-primary" href="#getkey">
-                        <i data-lucide="terminal"></i>
-                        get started
-                    </a>
-                    <a class="btn btn-secondary" href="https://discord.gg/2TKUPWwnEY" target="_blank">
-                        <svg class="icon" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-                        discord
+                <h1>Scripts that <span>work</span></h1>
+                <p>Free, updated when stuff breaks, and we have a discord if you need help or whatever</p>
+                <div class="herobtns">
+                    <a class="btn btn-purple" href="#getkey"><i data-lucide="download"></i>Get Started</a>
+                    <a class="btn btn-dark" href="https://discord.gg/2TKUPWwnEY" target="_blank">
+                        <svg style="width:15px;height:15px;fill:currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                        Discord
                     </a>
                 </div>
             </div>
 
-            <div class="stats-row">
-                <div class="stat-item">
-                    <div class="stat-num" data-count="75000">0</div>
-                    <div class="stat-label">daily executions</div>
+            <div class="counters">
+                <div class="counter">
+                    <b data-num="75000">0</b>
+                    <small>daily runs</small>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-num" data-count="10000">0</div>
-                    <div class="stat-label">users</div>
+                <div class="counter">
+                    <b data-num="10000">0</b>
+                    <small>users</small>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-num" data-count="99" data-suffix="%">0</div>
-                    <div class="stat-label">uptime (almost)</div>
+                <div class="counter">
+                    <b data-num="99" data-after="%">0</b>
+                    <small>uptime</small>
                 </div>
             </div>
 
-            <section class="section">
-                <div class="section-header clickable" onclick="togglesection(this)">
-                    <h2 class="section-title">// why us</h2>
-                    <span class="section-arrow">▼</span>
+            <div class="sect">
+                <div class="secthead canclick" onclick="toggledrop(this)">
+                    <h3>Why Syncware</h3>
+                    <span class="arrow">▼</span>
                 </div>
-                <div class="features-grid">
-                    <div class="feature-box">
-                        <h4><i data-lucide="dollar-sign"></i> actually free</h4>
-                        <p>no paywalls, no "premium only" features. key system takes 2 mins max.</p>
+                <div class="reasons">
+                    <div class="reason">
+                        <h4><i data-lucide="dollar-sign"></i>Free</h4>
+                        <p>Key system takes 2 mins. No payments.</p>
                     </div>
-                    <div class="feature-box">
-                        <h4><i data-lucide="refresh-cw"></i> updated often</h4>
-                        <p>we actually maintain this. patches usually same day or next.</p>
+                    <div class="reason">
+                        <h4><i data-lucide="refresh-cw"></i>Updated</h4>
+                        <p>We actually fix stuff when games update.</p>
                     </div>
-                    <div class="feature-box">
-                        <h4><i data-lucide="zap"></i> fast patches</h4>
-                        <p>game updated? we're probably already on it. no week-long waits.</p>
+                    <div class="reason">
+                        <h4><i data-lucide="zap"></i>Fast</h4>
+                        <p>Won't lag your game. Tested it myself.</p>
                     </div>
-                    <div class="feature-box">
-                        <h4><i data-lucide="shield"></i> not a rat</h4>
-                        <p>trust.</p>
+                    <div class="reason">
+                        <h4><i data-lucide="shield"></i>Safe</h4>
+                        <p>No weird stuff. Check the loader if you want.</p>
                     </div>
-                    <div class="feature-box">
-                        <h4><i data-lucide="message-circle"></i> actual support</h4>
-                        <p>discord server with pro owner who responds. usually.</p>
+                    <div class="reason">
+                        <h4><i data-lucide="users"></i>Help</h4>
+                        <p>Discord has people who can help you.</p>
                     </div>
-                    <div class="feature-box">
-                        <h4><i data-lucide="code"></i> clean code</h4>
-                        <p>optimized, no lag spikes, won't tank your fps. we tested it.</p>
+                    <div class="reason">
+                        <h4><i data-lucide="code"></i>Clean</h4>
+                        <p>No bloat. Just what you need.</p>
                     </div>
                 </div>
-            </section>
+            </div>
 
             <div class="credits">
-                <p class="credits-text">made by <span>sync</span> // maintained by the discord gang</p>
-                <div class="social-links">
-                    <a href="https://www.tiktok.com/@lualover9999" target="_blank" class="social-icon">
-                        <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
-                    </a>
-                    <a href="https://www.youtube.com/@twizzygotya5335" target="_blank" class="social-icon">
-                        <svg viewBox="0 0 24 24"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.54 3.5 12 3.5 12 3.5s-7.54 0-9.38.55A3.02 3.02 0 0 0 .5 6.19 31.68 31.68 0 0 0 0 12a31.68 31.68 0 0 0 .5 5.81 3.02 3.02 0 0 0 2.12 2.14c1.84.55 9.38.55 9.38.55s7.54 0 9.38-.55a3.02 3.02 0 0 0 2.12-2.14A31.68 31.68 0 0 0 24 12a31.68 31.68 0 0 0-.5-5.81zM9.54 15.57V8.43L15.82 12l-6.28 3.57z"/></svg>
-                    </a>
-                    <a href="https://discord.gg/2TKUPWwnEY" target="_blank" class="social-icon">
-                        <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-                    </a>
+                <p>made by <b>Sync</b></p>
+                <div class="socials">
+                    <a href="https://www.tiktok.com/@lualover9999" target="_blank" class="socialicon"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg></a>
+                    <a href="https://www.youtube.com/@twizzygotya5335" target="_blank" class="socialicon"><svg viewBox="0 0 24 24"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.54 3.5 12 3.5 12 3.5s-7.54 0-9.38.55A3.02 3.02 0 0 0 .5 6.19 31.68 31.68 0 0 0 0 12a31.68 31.68 0 0 0 .5 5.81 3.02 3.02 0 0 0 2.12 2.14c1.84.55 9.38.55 9.38.55s7.54 0 9.38-.55a3.02 3.02 0 0 0 2.12-2.14A31.68 31.68 0 0 0 24 12a31.68 31.68 0 0 0-.5-5.81zM9.54 15.57V8.43L15.82 12l-6.28 3.57z"/></svg></a>
+                    <a href="https://discord.gg/2TKUPWwnEY" target="_blank" class="socialicon"><svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg></a>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="games" class="page">
+    <div id="games" class="view">
         <div class="container">
-            <section class="section">
-                <div class="section-header">
-                    <h2 class="section-title">// supported games</h2>
+            <div class="sect">
+                <div class="secthead">
+                    <h3>Games</h3>
                 </div>
-                <div class="game-tabs" id="gametabs"></div>
-                <div id="gamescontainer" class="games-grid">
-                    <div class="games-loading">loading games...</div>
+                <div class="gametabs" id="tabs"></div>
+                <div class="gamegrid" id="gamegrid">
+                    <div class="gamenotice">loading...</div>
                 </div>
-            </section>
+            </div>
         </div>
     </div>
 
-    <div id="premium" class="page">
+    <div id="premium" class="view">
         <div class="container">
-            <div class="premium-grid">
-                <div class="premium-left">
-                    <h2>tired of key systems?</h2>
-                    <p>look, we get it. linkvertise sucks. pay once and never deal with it again. plus you get priority support when stuff breaks (it happens, we're honest about it).</p>
+            <div class="pricingwrap">
+                <div class="pricingleft">
+                    <h2>Skip the key system</h2>
+                    <p>Pay once and never deal with checkpoints again. Also get a role in discord I guess</p>
                 </div>
-                <div class="premium-card">
-                    <div class="premium-price">$9.99 <span>/ forever</span></div>
-                    <div class="premium-note">// one time, no recurring bs</div>
-                    <ul class="premium-perks">
-                        <li><i data-lucide="check"></i> permanent key</li>
-                        <li><i data-lucide="check"></i> skip all checkpoints</li>
-                        <li><i data-lucide="check"></i> priority support in discord</li>
-                        <li><i data-lucide="check"></i> early access to new scripts</li>
-                        <li><i data-lucide="check"></i> flex role in server</li>
+                <div class="pricingbox">
+                    <div class="pricingamount">$9.99 <span>forever</span></div>
+                    <div class="pricingnote">one time payment</div>
+                    <ul class="pricinglist">
+                        <li><i data-lucide="check"></i>Permanent key</li>
+                        <li><i data-lucide="check"></i>No more checkpoints</li>
+                        <li><i data-lucide="check"></i>Priority help</li>
+                        <li><i data-lucide="check"></i>Early access sometimes</li>
                     </ul>
-                    <button class="btn btn-gold" style="width:100%;justify-content:center" onclick="window.open('https://syncshops.mysellauth.com/')">
-                        <i data-lucide="credit-card"></i>
-                        buy now
+                    <button class="btn btn-yellow" style="width:100%;justify-content:center" onclick="window.open('https://syncshops.mysellauth.com/')">
+                        <i data-lucide="credit-card"></i>Buy
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="getkey" class="page">
+    <div id="getkey" class="view">
         <div class="container">
-            <section class="section">
-                <div class="section-header">
-                    <h2 class="section-title">// key providers</h2>
+            <div class="sect">
+                <div class="secthead">
+                    <h3>Get a Key</h3>
                 </div>
-                <p style="color:#444;font-size:13px;margin-bottom:24px;margin-top:-12px">pick one. both give 6 hours. lootlabs is usually easier.</p>
-                <div class="providers-grid">
-                    <div class="provider-card recommended">
-                        <span class="provider-badge">easier</span>
-                        <div class="provider-header">
-                            <img class="provider-logo" src="https://i.ibb.co/27gR31mH/lootlabs-newpng.png" onerror="this.style.background='#a855f7'" alt="">
-                            <div class="provider-name">Lootlabs</div>
+                <p style="color:#555;font-size:13px;margin-bottom:14px">both give 6 hours. lootlabs has less captchas usually</p>
+                <div class="keyproviders">
+                    <div class="keyprovider recommended">
+                        <span class="badge">easier</span>
+                        <div class="kphead">
+                            <img class="kplogo" src="https://i.ibb.co/27gR31mH/lootlabs-newpng.png" onerror="this.style.background='#a855f7'">
+                            <div class="kpname">Lootlabs</div>
                         </div>
-                        <div class="provider-details">
-                            <div class="provider-detail"><i data-lucide="clock"></i>6 hour access</div>
-                            <div class="provider-detail"><i data-lucide="list"></i>2 checkpoints</div>
-                            <div class="provider-detail"><i data-lucide="thumbs-up"></i>usually no captcha hell</div>
+                        <div class="kpdetails">
+                            <div class="kpdet"><i data-lucide="clock"></i>6 hours</div>
+                            <div class="kpdet"><i data-lucide="list"></i>2 checkpoints</div>
                         </div>
-                        <a class="btn btn-primary" style="width:100%;justify-content:center" href="https://ads.luarmor.net/get_key?for=Syncware__key_system_Lootlabs-yjjDpipABwOY" target="_blank">
-                            <i data-lucide="external-link"></i>
-                            get key
-                        </a>
+                        <a class="btn btn-purple" style="width:100%;justify-content:center" href="https://ads.luarmor.net/get_key?for=Syncware__key_system_Lootlabs-yjjDpipABwOY" target="_blank"><i data-lucide="external-link"></i>Get Key</a>
                     </div>
-                    <div class="provider-card">
-                        <div class="provider-header">
-                            <img class="provider-logo" src="https://i.ibb.co/dJKDPwpH/linkvertise.png" onerror="this.style.background='#5865f2'" alt="">
-                            <div class="provider-name">Linkvertise</div>
+                    <div class="keyprovider">
+                        <div class="kphead">
+                            <img class="kplogo" src="https://i.ibb.co/dJKDPwpH/linkvertise.png" onerror="this.style.background='#5865f2'">
+                            <div class="kpname">Linkvertise</div>
                         </div>
-                        <div class="provider-details">
-                            <div class="provider-detail"><i data-lucide="clock"></i>6 hour access</div>
-                            <div class="provider-detail"><i data-lucide="list"></i>2 checkpoints</div>
-                            <div class="provider-detail"><i data-lucide="zap"></i>might be faster sometimes</div>
+                        <div class="kpdetails">
+                            <div class="kpdet"><i data-lucide="clock"></i>6 hours</div>
+                            <div class="kpdet"><i data-lucide="list"></i>2 checkpoints</div>
                         </div>
-                        <a class="btn btn-secondary" style="width:100%;justify-content:center" href="https://ads.luarmor.net/get_key?for=Syncware__syzen-PmNLReaCtDEr" target="_blank">
-                            <i data-lucide="external-link"></i>
-                            get key
-                        </a>
+                        <a class="btn btn-dark" style="width:100%;justify-content:center" href="https://ads.luarmor.net/get_key?for=Syncware__syzen-PmNLReaCtDEr" target="_blank"><i data-lucide="external-link"></i>Get Key</a>
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <section class="section">
-                <div class="section-header">
-                    <h2 class="section-title">// script</h2>
+            <div class="sect">
+                <div class="secthead">
+                    <h3>Script</h3>
                 </div>
-                <p style="color:#444;font-size:13px;margin-bottom:16px;margin-top:-12px">paste this in your executor. replace KEY_HERE with your actual key.</p>
-                <div class="script-box">
-                    <div class="script-header">
+                <p style="color:#555;font-size:13px;margin-bottom:10px">replace KEY_HERE with your key. paste in executor. done.</p>
+                <div class="codewrap">
+                    <div class="codewraptop">
                         <span>lua</span>
-                        <button class="copy-btn" onclick="copyscript()">
-                            <i data-lucide="copy"></i>
-                            copy
-                        </button>
+                        <button class="copybtn" onclick="copycode()"><i data-lucide="copy"></i>Copy</button>
                     </div>
-                    <div class="script-code"><span class="line"><span class="var">script_key</span> <span class="prop">=</span> <span class="str">"KEY_HERE"</span></span>
-<span class="line"><span class="func">loadstring</span><span class="prop">(</span>game<span class="prop">:</span>HttpGet<span class="prop">(</span><span class="str">"https://api.luarmor.net/files/v4/loaders/b9a0b8e031dc3210c2b792caf505b93c.lua"</span><span class="prop">))()</span></span></div>
+                    <div class="codeblock"><span class="cv">script_key</span> = <span class="cs">"KEY_HERE"</span>
+<span style="color:#e879f9">loadstring</span>(game:HttpGet(<span class="cs">"https://api.luarmor.net/files/v4/loaders/b9a0b8e031dc3210c2b792caf505b93c.lua"</span>))()</div>
                 </div>
-            </section>
+            </div>
 
-            <section class="section">
-                <div class="section-header clickable" onclick="togglesection(this)">
-                    <h2 class="section-title">// tutorial (click if lost)</h2>
-                    <span class="section-arrow">▼</span>
+            <div class="sect">
+                <div class="secthead canclick" onclick="toggledrop(this)">
+                    <h3>Tutorial</h3>
+                    <span class="arrow">▼</span>
                 </div>
-                <div class="collapse-content">
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/UHF5Ez8aCjo" title="Tutorial" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
+                <div class="collapsecontent">
+                    <div class="videowrap">
+                        <iframe src="https://www.youtube.com/embed/UHF5Ez8aCjo" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
                     </div>
                 </div>
-            </section>
+            </div>
         </div>
     </div>
-</div>
+</main>
 
 <script>
-document.addEventListener('keydown',e=>{if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&['I','J','C'].includes(e.key))||(e.ctrlKey&&e.key==='U'))e.preventDefault()});
-
+    document.addEventListener('contextmenu',e=>e.preventDefault());
 lucide.createIcons();
 
-let menuopen=false;
-let gamesdata=[];
-let currentcat='all';
+var gameslist=[];
+var currentcat='all';
 
-function openmenu(){
-    menuopen=true;
-    document.getElementById('sidebar').classList.add('open');
+function openmobile(){
+    document.getElementById('mobilemenu').classList.add('open');
     document.getElementById('overlay').classList.add('open');
     document.body.style.overflow='hidden';
 }
 
-function closemenu(){
-    menuopen=false;
-    document.getElementById('sidebar').classList.remove('open');
+function closemobile(){
+    document.getElementById('mobilemenu').classList.remove('open');
     document.getElementById('overlay').classList.remove('open');
     document.body.style.overflow='';
 }
 
-function handleroute(){
-    let hash=location.hash.slice(1)||'home';
-    let valid=['home','games','premium','getkey'];
-    let pageid=valid.includes(hash)?hash:'home';
+function handlehash(){
+    var h=location.hash.slice(1)||'home';
+    var ok=['home','games','premium','getkey'];
+    var id=ok.indexOf(h)>-1?h:'home';
     
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-    document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
-    document.querySelectorAll('.sidebar-nav a').forEach(a=>a.classList.remove('active'));
+    var views=document.querySelectorAll('.view');
+    for(var i=0;i<views.length;i++)views[i].classList.remove('current');
     
-    document.getElementById(pageid).classList.add('active');
-    document.querySelectorAll('.nav-links a[href="#'+pageid+'"]').forEach(a=>a.classList.add('active'));
-    document.querySelectorAll('.sidebar-nav a[href="#'+pageid+'"]').forEach(a=>a.classList.add('active'));
+    var navlinks=document.querySelectorAll('.navlinks a, .mobilelinks a');
+    for(var i=0;i<navlinks.length;i++)navlinks[i].classList.remove('active');
     
-    closemenu();
+    document.getElementById(id).classList.add('current');
+    var activelinks=document.querySelectorAll('.navlinks a[href="#'+id+'"], .mobilelinks a[href="#'+id+'"]');
+    for(var i=0;i<activelinks.length;i++)activelinks[i].classList.add('active');
+    
+    closemobile();
     lucide.createIcons();
     
-    if(pageid==='home')animatenums();
-    if(pageid==='games')fetchgames();
-    scrollTo(0,0);
+    if(id=='home')animatenumbers();
+    if(id=='games')fetchgames();
+    window.scrollTo(0,0);
 }
 
-window.addEventListener('hashchange',handleroute);
-window.addEventListener('load',handleroute);
+window.addEventListener('hashchange',handlehash);
+window.addEventListener('load',handlehash);
 
-function togglesection(el){
-    let content=el.nextElementSibling;
-    let arrow=el.querySelector('.section-arrow');
-    content.classList.toggle('open');
-    arrow.classList.toggle('open');
+function toggledrop(el){
+    var content=el.nextElementSibling;
+    var arrow=el.querySelector('.arrow');
+    content.classList.toggle('visible');
+    if(arrow)arrow.classList.toggle('flipped');
 }
 
-function animatenums(){
-    document.querySelectorAll('[data-count]').forEach(el=>{
-        let target=+el.dataset.count;
-        let suffix=el.dataset.suffix||'+';
-        let duration=1400;
-        let start=Date.now();
-        let tick=()=>{
-            let progress=Math.min((Date.now()-start)/duration,1);
-            let eased=1-Math.pow(1-progress,3);
-            el.textContent=Math.floor(eased*target).toLocaleString();
-            if(progress<1){
-                requestAnimationFrame(tick);
-            }else{
-                el.textContent=target.toLocaleString()+suffix;
+function animatenumbers(){
+    var els=document.querySelectorAll('[data-num]');
+    for(var i=0;i<els.length;i++){
+        (function(el){
+            var target=parseInt(el.getAttribute('data-num'));
+            var suffix=el.getAttribute('data-after')||'+';
+            var start=Date.now();
+            var duration=1100;
+            function tick(){
+                var progress=Math.min((Date.now()-start)/duration,1);
+                var eased=1-Math.pow(1-progress,3);
+                el.textContent=Math.floor(eased*target).toLocaleString();
+                if(progress<1){
+                    requestAnimationFrame(tick);
+                }else{
+                    el.textContent=target.toLocaleString()+suffix;
+                }
             }
-        };
-        tick();
-    });
+            tick();
+        })(els[i]);
+    }
 }
 
-function copyscript(){
+function copycode(){
     navigator.clipboard.writeText('script_key = "KEY_HERE"\nloadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/b9a0b8e031dc3210c2b792caf505b93c.lua"))()');
-    let btn=document.querySelector('.copy-btn');
-    btn.innerHTML='<i data-lucide="check"></i>copied!';
+    var btn=document.querySelector('.copybtn');
+    btn.innerHTML='<i data-lucide="check"></i>done';
     lucide.createIcons();
-    setTimeout(()=>{
-        btn.innerHTML='<i data-lucide="copy"></i>copy';
+    setTimeout(function(){
+        btn.innerHTML='<i data-lucide="copy"></i>Copy';
         lucide.createIcons();
-    },2000);
+    },1500);
 }
 
-async function fetchgames(){
-    let container=document.getElementById('gamescontainer');
-    if(gamesdata.length){
+function fetchgames(){
+    var grid=document.getElementById('gamegrid');
+    if(gameslist.length>0){
         rendertabs();
         rendergames();
         return;
     }
-    try{
-        let res=await fetch('https://www.syncware.cc/games.json');
-        if(!res.ok)throw new Error();
-        gamesdata=await res.json();
-        if(!gamesdata||!gamesdata.length){
-            container.innerHTML='<div class="games-loading">no games rn. check back later.</div>';
-            return;
+    var xhr=new XMLHttpRequest();
+    xhr.open('GET','https://www.syncware.cc/games.json');
+    xhr.onload=function(){
+        if(xhr.status==200){
+            try{
+                gameslist=JSON.parse(xhr.responseText);
+                if(gameslist.length==0){
+                    grid.innerHTML='<div class="gamenotice">no games yet</div>';
+                    return;
+                }
+                rendertabs();
+                rendergames();
+            }catch(e){
+                grid.innerHTML='<div class="gamenotice">failed to load</div>';
+            }
+        }else{
+            grid.innerHTML='<div class="gamenotice">failed to load</div>';
         }
-        rendertabs();
-        rendergames();
-    }catch(e){
-        container.innerHTML='<div class="games-loading">failed to load. try refreshing.</div>';
-    }
+    };
+    xhr.onerror=function(){
+        grid.innerHTML='<div class="gamenotice">failed to load</div>';
+    };
+    xhr.send();
 }
 
 function rendertabs(){
-    let tabscontainer=document.getElementById('gametabs');
-    let categories=['all'];
-    gamesdata.forEach(g=>{
-        if(g.category&&!categories.includes(g.category))categories.push(g.category);
-    });
-    tabscontainer.innerHTML=categories.map(c=>{
-        return '<button class="game-tab'+(c===currentcat?' active':'')+'" onclick="filtercat(\''+c+'\')">'+c+'</button>';
-    }).join('');
+    var tabsbox=document.getElementById('tabs');
+    var cats=['all'];
+    for(var i=0;i<gameslist.length;i++){
+        var g=gameslist[i];
+        if(g.category&&cats.indexOf(g.category)==-1)cats.push(g.category);
+    }
+    var html='';
+    for(var i=0;i<cats.length;i++){
+        var c=cats[i];
+        html+='<button class="gametab'+(c==currentcat?' selected':'')+'" onclick="pickcat(\''+c+'\')">'+c+'</button>';
+    }
+    tabsbox.innerHTML=html;
 }
 
-function filtercat(cat){
-    currentcat=cat;
-    document.querySelectorAll('.game-tab').forEach(t=>t.classList.remove('active'));
-    document.querySelectorAll('.game-tab').forEach(t=>{
-        if(t.textContent===cat)t.classList.add('active');
-    });
+function pickcat(c){
+    currentcat=c;
+    var tabs=document.querySelectorAll('.gametab');
+    for(var i=0;i<tabs.length;i++){
+        tabs[i].classList.toggle('selected',tabs[i].textContent==c);
+    }
     rendergames();
 }
 
 function rendergames(){
-    let container=document.getElementById('gamescontainer');
-    let filtered=currentcat==='all'?gamesdata:gamesdata.filter(g=>g.category===currentcat);
-    
-    if(!filtered.length){
-        container.innerHTML='<div class="games-empty">nothing here yet</div>';
+    var grid=document.getElementById('gamegrid');
+    var list=[];
+    for(var i=0;i<gameslist.length;i++){
+        var g=gameslist[i];
+        if(currentcat=='all'||g.category==currentcat)list.push(g);
+    }
+    if(list.length==0){
+        grid.innerHTML='<div class="gamenotice">nothing here</div>';
         return;
     }
-    
-    container.innerHTML=filtered.map(g=>{
-        let status=g.status||'working';
-        let statusclass=status==='working'?'game-status':'game-status updating';
-        let statustext=status==='working'?'working':'updating';
-        return '<a class="game-card" href="https://www.roblox.com/games/'+(g.id||'')+'" target="_blank"><img src="'+g.thumbnail+'" alt="'+g.name+'" onerror="this.style.background=\'#111\'"><div class="game-info">'+(g.category?'<div class="game-cat">'+g.category+'</div>':'')+'<div class="game-name">'+g.name+'</div><div class="'+statusclass+'">'+statustext+'</div></div></a>';
-    }).join('');
+    var html='';
+    for(var i=0;i<list.length;i++){
+        var g=list[i];
+        var st=g.status||'working';
+        var stclass=st=='working'?'cardstatus':'cardstatus notworking';
+        html+='<a class="gamecard" href="https://www.roblox.com/games/'+(g.id||'')+'" target="_blank">';
+        html+='<img src="'+g.thumbnail+'" onerror="this.style.background=\'#1a1a1a\'">';
+        html+='<div class="cardinfo">';
+        if(g.category)html+='<div class="cardcat">'+g.category+'</div>';
+        html+='<div class="cardname">'+g.name+'</div>';
+        html+='<div class="'+stclass+'">'+st+'</div>';
+        html+='</div></a>';
+    }
+    grid.innerHTML=html;
 }
 
-let canvas=document.getElementById('particles');
-let ctx=canvas.getContext('2d');
-let W,H,tick=0;
-let dots=[];
-let dotcount=60;
-let maxdist=160;
+var canvas=document.getElementById('bgcanvas');
+var ctx=canvas.getContext('2d');
+var W,H,frame=0;
+var particles=[];
 
-function resizecanvas(){
-    W=canvas.width=innerWidth;
-    H=canvas.height=innerHeight;
+function resize(){
+    W=canvas.width=window.innerWidth;
+    H=canvas.height=window.innerHeight;
 }
-addEventListener('resize',resizecanvas);
-resizecanvas();
+window.addEventListener('resize',resize);
+resize();
 
-function createdot(){
-    return{
+for(var i=0;i<45;i++){
+    particles.push({
         x:Math.random()*W,
         y:Math.random()*H,
-        angle:Math.random()*6.28,
-        speed:Math.random()*1.2+0.8,
-        turnrate:Math.random()*.015-.0075,
-        size:Math.random()*2+1,
-        alpha:Math.random()*.4+.2,
-        pulse:Math.random()*6.28
-    };
+        a:Math.random()*6.28,
+        s:Math.random()*.6+.3,
+        t:Math.random()*.008-.004,
+        r:Math.random()*1.3+.4,
+        o:Math.random()*.25+.08,
+        p:Math.random()*6.28
+    });
 }
 
-function updatedot(d){
-    d.angle+=d.turnrate+Math.sin(tick*.003+d.pulse)*.008;
-    d.x+=Math.cos(d.angle)*d.speed;
-    d.y+=Math.sin(d.angle)*d.speed;
-    d.pulse+=.03;
-    if(d.x<-30)d.x=W+30;
-    if(d.x>W+30)d.x=-30;
-    if(d.y<-30)d.y=H+30;
-    if(d.y>H+30)d.y=-30;
-}
-
-function drawdot(d){
-    let glow=Math.sin(d.pulse)*.15+.85;
-    let radius=d.size*2.5;
+function render(){
+    frame++;
+    ctx.fillStyle='rgba(14,14,14,.18)';
+    ctx.fillRect(0,0,W,H);
     
-    let gradient=ctx.createRadialGradient(d.x,d.y,0,d.x,d.y,radius);
-    gradient.addColorStop(0,'rgba(168,85,247,'+(d.alpha*glow)+')');
-    gradient.addColorStop(0.5,'rgba(139,92,246,'+(d.alpha*.3*glow)+')');
-    gradient.addColorStop(1,'rgba(124,58,237,0)');
-    
-    ctx.beginPath();
-    ctx.arc(d.x,d.y,radius,0,6.28);
-    ctx.fillStyle=gradient;
-    ctx.fill();
-    
-    ctx.beginPath();
-    ctx.arc(d.x,d.y,d.size,0,6.28);
-    ctx.fillStyle='rgba(192,132,252,'+(d.alpha*glow*.8)+')';
-    ctx.fill();
-}
-
-function drawlines(){
-    for(let i=0;i<dots.length;i++){
-        for(let j=i+1;j<dots.length;j++){
-            let dx=dots[i].x-dots[j].x;
-            let dy=dots[i].y-dots[j].y;
-            let dist=Math.sqrt(dx*dx+dy*dy);
-            if(dist<maxdist){
-                let alpha=(1-dist/maxdist)*.15;
+    for(var i=0;i<particles.length;i++){
+        var p=particles[i];
+        p.a+=p.t+Math.sin(frame*.0015+p.p)*.004;
+        p.x+=Math.cos(p.a)*p.s;
+        p.y+=Math.sin(p.a)*p.s;
+        p.p+=.018;
+        
+        if(p.x<-15)p.x=W+15;
+        if(p.x>W+15)p.x=-15;
+        if(p.y<-15)p.y=H+15;
+        if(p.y>H+15)p.y=-15;
+        
+        var glow=Math.sin(p.p)*.08+.92;
+        var grad=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*2);
+        grad.addColorStop(0,'rgba(168,85,247,'+(p.o*glow)+')');
+        grad.addColorStop(1,'rgba(168,85,247,0)');
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r*2,0,6.28);
+        ctx.fillStyle=grad;
+        ctx.fill();
+        
+        for(var j=i+1;j<particles.length;j++){
+            var q=particles[j];
+            var dx=p.x-q.x;
+            var dy=p.y-q.y;
+            var d=Math.sqrt(dx*dx+dy*dy);
+            if(d<110){
                 ctx.beginPath();
-                ctx.moveTo(dots[i].x,dots[i].y);
-                ctx.lineTo(dots[j].x,dots[j].y);
-                ctx.strokeStyle='rgba(168,85,247,'+alpha+')';
-                ctx.lineWidth=(1-dist/maxdist)*1.2;
+                ctx.moveTo(p.x,p.y);
+                ctx.lineTo(q.x,q.y);
+                ctx.strokeStyle='rgba(168,85,247,'+((1-d/110)*.06)+')';
                 ctx.stroke();
             }
         }
     }
+    requestAnimationFrame(render);
 }
 
-for(let i=0;i<dotcount;i++){
-    dots.push(createdot());
-}
-
-function renderframe(){
-    tick++;
-    ctx.fillStyle='rgba(10,10,10,.1)';
-    ctx.fillRect(0,0,W,H);
-    drawlines();
-    for(let i=0;i<dots.length;i++){
-        updatedot(dots[i]);
-        drawdot(dots[i]);
-    }
-    requestAnimationFrame(renderframe);
-}
-
-ctx.fillStyle='#0a0a0a';
+ctx.fillStyle='#0e0e0e';
 ctx.fillRect(0,0,W,H);
-renderframe();
+render();
 </script>
 
 </body>
