@@ -20,22 +20,25 @@
         .c{max-width:980px;margin:0 auto;padding:0 28px}
         nav{position:sticky;top:0;background:rgba(5,5,5,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.06);z-index:100}
         nav .c{display:flex;justify-content:space-between;align-items:center;height:64px}
-        .brand{font-size:18px;font-weight:600;letter-spacing:-.5px;color:#fff}
+        .brand{font-size:18px;font-weight:600;letter-spacing:-.5px;color:#fff;text-decoration:none;cursor:pointer;transition:.15s}
+        .brand:hover{color:#a855f7}
         .hmb{display:none;background:none;border:none;color:#fff;cursor:pointer;padding:8px;margin-right:-8px}
         .hmb .lucide{width:24px;height:24px}
         .nl{display:flex;gap:2px}
-        .nl a{background:none;border:none;color:#777;font-family:inherit;font-size:13px;font-weight:500;padding:10px 18px;cursor:pointer;transition:.15s;border-radius:6px;text-decoration:none}
+        .nl a{background:none;border:none;color:#777;font-family:inherit;font-size:13px;font-weight:500;padding:10px 18px;cursor:pointer;transition:all .2s;border-radius:6px;text-decoration:none;position:relative}
         .nl a:hover{color:#fff;background:rgba(255,255,255,.04)}
         .nl a.on{color:#fff;background:rgba(255,255,255,.06)}
-        .pg{display:none;min-height:calc(100vh - 64px);padding:70px 0 120px}
-        .pg.on{display:block}
+        .pg{display:none;min-height:calc(100vh - 64px);padding:70px 0 120px;opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s}
+        .pg.on{display:block;opacity:1;transform:translateY(0)}
+        .pg.fadein{animation:fadein .4s ease forwards}
+        @keyframes fadein{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
         .hero{padding:60px 0 80px}
         .hero h1{font-family:'Crimson Pro',serif;font-size:clamp(42px,10vw,88px);font-weight:400;line-height:1.05;letter-spacing:-1px;margin-bottom:28px;color:#fff}
         .mk{position:relative;font-style:italic;white-space:nowrap}
         .mk::before{content:'';position:absolute;left:-6px;right:-6px;bottom:10%;height:.35em;background:linear-gradient(92deg,transparent 0%,rgba(168,85,247,.45) 5%,rgba(139,92,246,.6) 20%,rgba(168,85,247,.65) 40%,rgba(124,58,237,.6) 60%,rgba(168,85,247,.55) 80%,rgba(139,92,246,.45) 95%,transparent 100%);z-index:-1;transform:rotate(-2.5deg) skewX(-12deg);border-radius:4px}
         .hdesc{font-size:17px;color:#888;max-width:420px;margin-bottom:40px}
         .hbtns{display:flex;gap:14px;flex-wrap:wrap}
-        .btn{display:inline-flex;align-items:center;gap:10px;font-family:inherit;font-size:14px;font-weight:600;padding:14px 28px;border-radius:8px;border:none;cursor:pointer;transition:.2s;text-decoration:none;-webkit-tap-highlight-color:transparent}
+        .btn{display:inline-flex;align-items:center;gap:10px;font-family:inherit;font-size:14px;font-weight:600;padding:14px 28px;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;-webkit-tap-highlight-color:transparent}
         .btn .lucide{width:16px;height:16px}
         .btn .isvg{width:16px;height:16px;fill:currentColor}
         .btnm{background:#fff;color:#000}
@@ -65,15 +68,30 @@
         .sico{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);color:#888;transition:.15s;-webkit-tap-highlight-color:transparent}
         .sico:hover{color:#fff;border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.08)}
         .sico svg{width:18px;height:18px;fill:currentColor}
+        .gtabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+        .gtab{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:#888;font-family:inherit;font-size:12px;font-weight:500;padding:8px 16px;border-radius:6px;cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent}
+        .gtab:hover{color:#fff;border-color:rgba(255,255,255,.15)}
+        .gtab.on{background:rgba(168,85,247,.15);border-color:rgba(168,85,247,.4);color:#c084fc}
         .gms{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
-        .gcard{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:12px;overflow:hidden;transition:.25s;cursor:pointer;text-decoration:none;display:block;-webkit-tap-highlight-color:transparent}
+        .gcard{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:12px;overflow:hidden;transition:all .25s;cursor:pointer;text-decoration:none;display:block;-webkit-tap-highlight-color:transparent;opacity:0;animation:cardin .4s ease forwards}
+        .gcard:nth-child(1){animation-delay:.05s}
+        .gcard:nth-child(2){animation-delay:.1s}
+        .gcard:nth-child(3){animation-delay:.15s}
+        .gcard:nth-child(4){animation-delay:.2s}
+        .gcard:nth-child(5){animation-delay:.25s}
+        .gcard:nth-child(6){animation-delay:.3s}
+        @keyframes cardin{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
         .gcard:hover{border-color:rgba(168,85,247,.5);transform:translateY(-4px);box-shadow:0 20px 50px rgba(168,85,247,.15)}
         .gcard img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#111}
         .gcard .info{padding:16px}
         .gcard .nm{font-size:14px;font-weight:600;color:#fff;margin-bottom:6px}
+        .gcard .gcat{font-size:10px;color:#666;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
         .gcard .st{font-size:11px;color:#22c55e;text-transform:uppercase;letter-spacing:.5px;display:flex;align-items:center;gap:6px}
         .gcard .st::before{content:'';width:6px;height:6px;background:#22c55e;border-radius:50%}
+        .gcard .st.unt{color:#f59e0b}
+        .gcard .st.unt::before{background:#f59e0b}
         .gload{grid-column:1/-1;text-align:center;padding:80px 20px;color:#666}
+        .gnone{grid-column:1/-1;text-align:center;padding:60px 20px;color:#555;font-size:14px}
         .prg{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
         .prl h2{font-family:'Crimson Pro',serif;font-size:48px;font-weight:400;color:#fff;line-height:1.15;margin-bottom:20px}
         .prl p{color:#888;font-size:16px;line-height:1.7}
@@ -116,11 +134,25 @@
         .tcont.open{max-height:600px;opacity:1}
         .tvid{position:relative;padding-bottom:56.25%;background:#0a0a0a;border:1px solid rgba(255,255,255,.06);border-radius:12px;overflow:hidden}
         .tvid iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
-        .mover{display:none;position:fixed;inset:0;background:rgba(5,5,5,.98);z-index:99;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
-        .mover.on{opacity:1;visibility:visible}
-        .mnav{display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%;gap:8px}
-        .mnav a{background:none;border:none;color:#888;font-family:inherit;font-size:20px;font-weight:500;padding:16px 32px;cursor:pointer;transition:.15s;border-radius:8px;-webkit-tap-highlight-color:transparent;text-decoration:none}
-        .mnav a:hover,.mnav a.on{color:#fff;background:rgba(255,255,255,.06)}
+        .side{position:fixed;top:0;right:0;width:280px;height:100%;background:#0a0a0a;border-left:1px solid rgba(255,255,255,.08);z-index:101;transform:translateX(100%);transition:transform .3s ease;display:flex;flex-direction:column}
+        .side.on{transform:translateX(0)}
+        .shead{display:flex;justify-content:space-between;align-items:center;padding:20px;border-bottom:1px solid rgba(255,255,255,.06)}
+        .shead span{font-size:14px;font-weight:600;color:#fff}
+        .scls{background:none;border:none;color:#666;cursor:pointer;padding:4px;transition:.15s}
+        .scls:hover{color:#fff}
+        .scls .lucide{width:20px;height:20px}
+        .snav{flex:1;padding:16px;display:flex;flex-direction:column;gap:4px}
+        .snav a{color:#888;font-size:15px;font-weight:500;padding:14px 16px;border-radius:8px;text-decoration:none;transition:all .2s;display:flex;align-items:center;gap:12px}
+        .snav a .lucide{width:18px;height:18px;color:#666}
+        .snav a:hover{color:#fff;background:rgba(255,255,255,.04)}
+        .snav a.on{color:#fff;background:rgba(168,85,247,.12)}
+        .snav a.on .lucide{color:#a855f7}
+        .sfoot{padding:20px;border-top:1px solid rgba(255,255,255,.06)}
+        .sfoot a{display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(88,101,242,.15);border:1px solid rgba(88,101,242,.3);color:#8b9aff;font-size:13px;font-weight:600;padding:12px;border-radius:8px;text-decoration:none;transition:all .2s}
+        .sfoot a:hover{background:rgba(88,101,242,.25);border-color:rgba(88,101,242,.5)}
+        .sfoot a .lucide{width:16px;height:16px}
+        .overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+        .overlay.on{opacity:1;visibility:visible}
         @media(max-width:768px){
             .c{padding:0 20px}
             .hmb{display:block}
@@ -151,6 +183,8 @@
             .dev{padding:48px 0}
             .pg{padding:50px 0 100px}
             .sec{margin-bottom:48px}
+            .gtabs{gap:6px}
+            .gtab{padding:6px 12px;font-size:11px}
         }
         @media(max-width:480px){
             .c{padding:0 16px}
@@ -161,6 +195,7 @@
             .prl h2{font-size:30px}
             .price{font-size:38px}
             .scode{font-size:10px;word-break:break-all}
+            .side{width:100%;max-width:300px}
         }
         @media(hover:none){
             .btnm:hover{background:#fff;transform:none}
@@ -176,20 +211,45 @@
 
 <canvas id="cbg"></canvas>
 
-<div class="mover" id="mover">
-    <div class="mnav">
-        <a class="on" href="#home">Home</a>
-        <a href="#games">Games</a>
-        <a href="#premium">Premium</a>
-        <a href="#getkey">Get Key</a>
-        <a href="https://discord.gg/2TKUPWwnEY" target="_blank" onclick="hm()">Discord</a>
+<div class="overlay" id="overlay" onclick="closenav()"></div>
+
+<div class="side" id="side">
+    <div class="shead">
+        <span>Menu</span>
+        <button class="scls" onclick="closenav()">
+            <i data-lucide="x"></i>
+        </button>
+    </div>
+    <div class="snav">
+        <a class="on" href="#home" onclick="closenav()">
+            <i data-lucide="home"></i>
+            Home
+        </a>
+        <a href="#games" onclick="closenav()">
+            <i data-lucide="gamepad-2"></i>
+            Games
+        </a>
+        <a href="#premium" onclick="closenav()">
+            <i data-lucide="crown"></i>
+            Premium
+        </a>
+        <a href="#getkey" onclick="closenav()">
+            <i data-lucide="key"></i>
+            Get Key
+        </a>
+    </div>
+    <div class="sfoot">
+        <a href="https://discord.gg/2TKUPWwnEY" target="_blank">
+            <i data-lucide="message-circle"></i>
+            Join Discord
+        </a>
     </div>
 </div>
 
 <div class="w">
     <nav>
         <div class="c">
-            <div class="brand">syncware</div>
+            <a class="brand" href="#home">syncware</a>
             <div class="nl">
                 <a class="on" href="#home">Home</a>
                 <a href="#games">Games</a>
@@ -197,8 +257,8 @@
                 <a href="#getkey">Get Key</a>
                 <a href="https://discord.gg/2TKUPWwnEY" target="_blank">Discord</a>
             </div>
-            <button class="hmb" onclick="sm()">
-                <i data-lucide="menu" id="hicon"></i>
+            <button class="hmb" onclick="opennav()">
+                <i data-lucide="menu"></i>
             </button>
         </div>
     </nav>
@@ -236,7 +296,7 @@
             </div>
 
             <section class="sec">
-                <div class="sh clk" onclick="tog(this)">
+                <div class="sh clk" onclick="toggle(this)">
                     <h2>Why Syncware</h2>
                     <span class="arr">▼</span>
                 </div>
@@ -291,6 +351,7 @@
                 <div class="sh">
                     <h2>Supported Games</h2>
                 </div>
+                <div class="gtabs" id="gtabs"></div>
                 <div id="gcon" class="gms">
                     <div class="gload">Loading games...</div>
                 </div>
@@ -342,10 +403,10 @@
                             <div class="pvmi"><i data-lucide="list-checks"></i>2 checkpoints</div>
                             <div class="pvmi"><i data-lucide="thumbs-up"></i>Easy tasks</div>
                         </div>
-                        <button class="btn btnm pvbtn" onclick="window.open('https://ads.luarmor.net/get_key?for=Syncware__key_system_Lootlabs-yjjDpipABwOY')">
+                        <a class="btn btnm pvbtn" href="https://ads.luarmor.net/get_key?for=Syncware__key_system_Lootlabs-yjjDpipABwOY" target="_blank">
                             <i data-lucide="external-link"></i>
                             Get Key
-                        </button>
+                        </a>
                     </div>
                     <div class="pvc">
                         <div class="pvh">
@@ -357,10 +418,10 @@
                             <div class="pvmi"><i data-lucide="list-checks"></i>2 checkpoints</div>
                             <div class="pvmi"><i data-lucide="zap"></i>Quick verification</div>
                         </div>
-                        <button class="btn btng pvbtn" onclick="window.open('https://ads.luarmor.net/get_key?for=Syncware__syzen-PmNLReaCtDEr')">
+                        <a class="btn btng pvbtn" href="https://ads.luarmor.net/get_key?for=Syncware__syzen-PmNLReaCtDEr" target="_blank">
                             <i data-lucide="external-link"></i>
                             Get Key
-                        </button>
+                        </a>
                     </div>
                 </div>
             </section>
@@ -372,7 +433,7 @@
                 <div class="sbox">
                     <div class="sboxt">
                         <span>lua</span>
-                        <button class="cpb" onclick="cpy()">
+                        <button class="cpb" onclick="copy()">
                             <i data-lucide="copy"></i>
                             copy
                         </button>
@@ -383,7 +444,7 @@
             </section>
 
             <section class="sec">
-                <div class="sh clk" onclick="tog(this)">
+                <div class="sh clk" onclick="toggle(this)">
                     <h2>Tutorial</h2>
                     <span class="arr">▼</span>
                 </div>
@@ -402,133 +463,208 @@ document.addEventListener('keydown',e=>{if(e.key==='F12'||(e.ctrlKey&&e.shiftKey
 
 lucide.createIcons();
 
-let mo=false;
+let navopen=false;
+let games=[];
+let cat='all';
 
-function sm(){
-    mo=!mo;
-    document.getElementById('mover').classList.toggle('on',mo);
-    document.getElementById('hicon').setAttribute('data-lucide',mo?'x':'menu');
-    document.body.style.overflow=mo?'hidden':'';
-    lucide.createIcons();
+function opennav(){
+    navopen=true;
+    document.getElementById('side').classList.add('on');
+    document.getElementById('overlay').classList.add('on');
+    document.body.style.overflow='hidden';
 }
 
-function hm(){
-    mo=false;
-    document.getElementById('mover').classList.remove('on');
-    document.getElementById('hicon').setAttribute('data-lucide','menu');
+function closenav(){
+    navopen=false;
+    document.getElementById('side').classList.remove('on');
+    document.getElementById('overlay').classList.remove('on');
     document.body.style.overflow='';
-    lucide.createIcons();
 }
 
-function rt(){
-    const h=location.hash.slice(1)||'home';
-    const v=['home','games','premium','getkey'];
-    const id=v.includes(h)?h:'home';
-    document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+function route(){
+    let h=location.hash.slice(1)||'home';
+    let ok=['home','games','premium','getkey'];
+    let id=ok.includes(h)?h:'home';
+    document.querySelectorAll('.pg').forEach(p=>{
+        p.classList.remove('on');
+        p.classList.remove('fadein');
+    });
     document.querySelectorAll('.nl a').forEach(a=>a.classList.remove('on'));
-    document.querySelectorAll('.mnav a').forEach(a=>a.classList.remove('on'));
-    document.getElementById(id).classList.add('on');
-    document.querySelectorAll(`.nl a[href="#${id}"]`).forEach(a=>a.classList.add('on'));
-    document.querySelectorAll(`.mnav a[href="#${id}"]`).forEach(a=>a.classList.add('on'));
-    hm();
+    document.querySelectorAll('.snav a').forEach(a=>a.classList.remove('on'));
+    let pg=document.getElementById(id);
+    pg.classList.add('on');
+    pg.classList.add('fadein');
+    document.querySelectorAll('.nl a[href="#'+id+'"]').forEach(a=>a.classList.add('on'));
+    document.querySelectorAll('.snav a[href="#'+id+'"]').forEach(a=>a.classList.add('on'));
+    closenav();
     lucide.createIcons();
-    if(id==='home')cnt();
-    if(id==='games')ld();
+    if(id==='home')countnums();
+    if(id==='games')loadgames();
     scrollTo(0,0);
 }
 
-window.addEventListener('hashchange',rt);
-window.addEventListener('load',rt);
+window.addEventListener('hashchange',route);
+window.addEventListener('load',route);
 
-function tog(el){
-    const t=el.nextElementSibling;
-    const a=el.querySelector('.arr');
+function toggle(el){
+    let t=el.nextElementSibling;
+    let a=el.querySelector('.arr');
     t.classList.toggle('open');
     a.classList.toggle('flip');
 }
 
-function cnt(){
+function countnums(){
     document.querySelectorAll('[data-count]').forEach(el=>{
-        const t=+el.dataset.count,s=el.dataset.suffix||'+',d=1600,st=Date.now();
-        const run=()=>{const p=Math.min((Date.now()-st)/d,1);el.textContent=Math.floor((1-Math.pow(1-p,3))*t).toLocaleString();p<1?requestAnimationFrame(run):el.textContent=t.toLocaleString()+s};
-        run();
+        let end=+el.dataset.count,sfx=el.dataset.suffix||'+',dur=1600,start=Date.now();
+        let tick=()=>{
+            let p=Math.min((Date.now()-start)/dur,1);
+            el.textContent=Math.floor((1-Math.pow(1-p,3))*end).toLocaleString();
+            p<1?requestAnimationFrame(tick):el.textContent=end.toLocaleString()+sfx;
+        };
+        tick();
     });
 }
 
-function cpy(){
-    navigator.clipboard.writeText(`script_key = "KEY_HERE"\nloadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/b9a0b8e031dc3210c2b792caf505b93c.lua"))()`);
-    const b=document.querySelector('.cpb');
+function copy(){
+    navigator.clipboard.writeText('script_key = "KEY_HERE"\nloadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/b9a0b8e031dc3210c2b792caf505b93c.lua"))()');
+    let b=document.querySelector('.cpb');
     b.innerHTML='<i data-lucide="check"></i>copied!';
     lucide.createIcons();
     setTimeout(()=>{b.innerHTML='<i data-lucide="copy"></i>copy';lucide.createIcons()},2e3);
 }
 
-async function ld(){
-    const c=document.getElementById('gcon');
-    try{const r=await fetch('https://games.syncware.cc/games.json');if(!r.ok)throw 0;rn(await r.json())}
-    catch{c.innerHTML='<div class="gload">Failed to load games.</div>'}
-}
-
-function rn(g){
-    const c=document.getElementById('gcon');
-    if(!g||!g.length){c.innerHTML='<div class="gload">No games available</div>';return}
-    c.innerHTML=g.map(x=>`<a class="gcard" href="https://www.roblox.com/games/${x.id||''}" target="_blank"><img src="${x.thumbnail}" alt="${x.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 9%22><rect fill=%22%23111%22 width=%2216%22 height=%229%22/></svg>'"><div class="info"><div class="nm">${x.name}</div><div class="st">Working</div></div></a>`).join('');
-}
-
-const cv=document.getElementById('cbg'),cx=cv.getContext('2d');
-let W,H,mx=0,my=0;const pts=[],N=50,D=150;
-function rs(){W=cv.width=innerWidth;H=cv.height=innerHeight}
-addEventListener('resize',rs);rs();
-addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
-addEventListener('touchmove',e=>{if(e.touches[0]){mx=e.touches[0].clientX;my=e.touches[0].clientY}},{passive:true});
-
-class P{constructor(){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-.5)*.25;this.vy=(Math.random()-.5)*.25;this.r=Math.random()*1.5+.6;this.a=Math.random()*.35+.15;this.pulse=Math.random()*Math.PI*2}
-u(){
-    const dx=mx-this.x,dy=my-this.y,dist=Math.sqrt(dx*dx+dy*dy);
-    if(dist<150&&dist>0){const f=.008*(1-dist/150);this.vx+=dx/dist*f;this.vy+=dy/dist*f}
-    this.vx*=.99;this.vy*=.99;
-    this.x+=this.vx;this.y+=this.vy;
-    this.pulse+=.015;
-    if(this.x<0)this.x=W;if(this.x>W)this.x=0;if(this.y<0)this.y=H;if(this.y>H)this.y=0
-}
-d(){
-    const glow=Math.sin(this.pulse)*.1+.9;
-    const gradient=cx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.r*2.5);
-    gradient.addColorStop(0,`rgba(168,85,247,${this.a*glow})`);
-    gradient.addColorStop(.5,`rgba(139,92,246,${this.a*.3*glow})`);
-    gradient.addColorStop(1,`rgba(124,58,237,0)`);
-    cx.beginPath();cx.arc(this.x,this.y,this.r*2.5,0,Math.PI*2);cx.fillStyle=gradient;cx.fill();
-    cx.beginPath();cx.arc(this.x,this.y,this.r,0,Math.PI*2);cx.fillStyle=`rgba(192,132,252,${this.a*glow})`;cx.fill()
-}}
-
-for(let i=0;i<N;i++)pts.push(new P);
-
-function ln(){
-    for(let i=0;i<pts.length;i++){
-        for(let j=i+1;j<pts.length;j++){
-            const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
-            if(d<D){
-                const a=(1-d/D)*.15;
-                cx.beginPath();cx.moveTo(pts[i].x,pts[i].y);cx.lineTo(pts[j].x,pts[j].y);
-                cx.strokeStyle=`rgba(168,85,247,${a})`;cx.lineWidth=1*(1-d/D);cx.stroke()
-            }
+async function loadgames(){
+    let box=document.getElementById('gcon');
+    let tabs=document.getElementById('gtabs');
+    if(games.length){
+        rendertabs();
+        rendergames();
+        return;
+    }
+    try{
+        let r=await fetch('https://games.syncware.cc/games.json');
+        if(!r.ok)throw 0;
+        games=await r.json();
+        if(!games||!games.length){
+            box.innerHTML='<div class="gload">No games available</div>';
+            return;
         }
-        const dx=mx-pts[i].x,dy=my-pts[i].y,d=Math.sqrt(dx*dx+dy*dy);
-        if(d<200){
-            const a=(1-d/200)*.2;
-            cx.beginPath();cx.moveTo(pts[i].x,pts[i].y);cx.lineTo(mx,my);
-            cx.strokeStyle=`rgba(139,92,246,${a})`;cx.lineWidth=.8*(1-d/200);cx.stroke()
+        rendertabs();
+        rendergames();
+    }catch{
+        box.innerHTML='<div class="gload">Failed to load games.</div>';
+    }
+}
+
+function rendertabs(){
+    let tabs=document.getElementById('gtabs');
+    let cats=['all'];
+    games.forEach(g=>{
+        if(g.category&&!cats.includes(g.category))cats.push(g.category);
+    });
+    tabs.innerHTML=cats.map(c=>'<button class="gtab'+(c===cat?' on':'')+'" onclick="setcat(\''+c+'\')">'+c+'</button>').join('');
+}
+
+function setcat(c){
+    cat=c;
+    document.querySelectorAll('.gtab').forEach(t=>t.classList.remove('on'));
+    document.querySelectorAll('.gtab').forEach(t=>{if(t.textContent===c)t.classList.add('on')});
+    rendergames();
+}
+
+function rendergames(){
+    let box=document.getElementById('gcon');
+    let list=cat==='all'?games:games.filter(g=>g.category===cat);
+    if(!list.length){
+        box.innerHTML='<div class="gnone">No games in this category</div>';
+        return;
+    }
+    box.innerHTML=list.map(g=>{
+        let status=g.status||'working';
+        let stclass=status==='working'?'st':'st unt';
+        let sttext=status==='working'?'Working':'Updating';
+        return '<a class="gcard" href="https://www.roblox.com/games/'+(g.id||'')+'" target="_blank"><img src="'+g.thumbnail+'" alt="'+g.name+'" onerror="this.src=\'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 9%22><rect fill=%22%23111%22 width=%2216%22 height=%229%22/></svg>\'"><div class="info">'+(g.category?'<div class="gcat">'+g.category+'</div>':'')+'<div class="nm">'+g.name+'</div><div class="'+stclass+'">'+sttext+'</div></div></a>';
+    }).join('');
+}
+
+let can=document.getElementById('cbg'),ctx=can.getContext('2d');
+let W,H,t=0;
+let dots=[],N=70,maxD=180;
+
+function resize(){W=can.width=innerWidth;H=can.height=innerHeight}
+addEventListener('resize',resize);resize();
+
+function mkdot(){
+    return{
+        x:Math.random()*W,
+        y:Math.random()*H,
+        ang:Math.random()*6.28,
+        spd:Math.random()*1.5+1,
+        turn:Math.random()*.02-.01,
+        s:Math.random()*2+1,
+        o:Math.random()*.5+.2,
+        w:Math.random()*6.28
+    };
+}
+
+function upddot(d){
+    d.ang+=d.turn+Math.sin(t*.002+d.w)*.01;
+    d.x+=Math.cos(d.ang)*d.spd;
+    d.y+=Math.sin(d.ang)*d.spd;
+    d.w+=.04;
+    if(d.x<-20)d.x=W+20;
+    if(d.x>W+20)d.x=-20;
+    if(d.y<-20)d.y=H+20;
+    if(d.y>H+20)d.y=-20;
+}
+
+function drwdot(d){
+    let g=Math.sin(d.w)*.2+.8;
+    let r=d.s*3;
+    let gr=ctx.createRadialGradient(d.x,d.y,0,d.x,d.y,r);
+    gr.addColorStop(0,'rgba(168,85,247,'+(d.o*g)+')');
+    gr.addColorStop(.5,'rgba(139,92,246,'+(d.o*.4*g)+')');
+    gr.addColorStop(1,'rgba(124,58,237,0)');
+    ctx.beginPath();
+    ctx.arc(d.x,d.y,r,0,6.28);
+    ctx.fillStyle=gr;
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(d.x,d.y,d.s,0,6.28);
+    ctx.fillStyle='rgba(192,132,252,'+(d.o*g)+')';
+    ctx.fill();
+}
+
+for(let i=0;i<N;i++)dots.push(mkdot());
+
+function lines(){
+    for(let i=0;i<dots.length;i++){
+        for(let j=i+1;j<dots.length;j++){
+            let dx=dots[i].x-dots[j].x,dy=dots[i].y-dots[j].y,d=Math.sqrt(dx*dx+dy*dy);
+            if(d<maxD){
+                ctx.beginPath();
+                ctx.moveTo(dots[i].x,dots[i].y);
+                ctx.lineTo(dots[j].x,dots[j].y);
+                ctx.strokeStyle='rgba(168,85,247,'+((1-d/maxD)*.2)+')';
+                ctx.lineWidth=(1-d/maxD)*1.5;
+                ctx.stroke();
+            }
         }
     }
 }
 
-function lp(){
-    cx.fillStyle='rgba(5,5,5,.15)';cx.fillRect(0,0,W,H);
-    ln();pts.forEach(p=>{p.u();p.d()});
-    requestAnimationFrame(lp)
+function frame(){
+    t++;
+    ctx.fillStyle='rgba(5,5,5,.08)';
+    ctx.fillRect(0,0,W,H);
+    lines();
+    for(let i=0;i<dots.length;i++){upddot(dots[i]);drwdot(dots[i])}
+    requestAnimationFrame(frame);
 }
 
-cx.fillStyle='#050505';cx.fillRect(0,0,W,H);lp();
+ctx.fillStyle='#050505';
+ctx.fillRect(0,0,W,H);
+frame();
 </script>
 
 </body>
