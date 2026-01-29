@@ -471,7 +471,7 @@ function cp(){
 async function gms(){
     let box=document.getElementById('gcon');
     try{
-        let r=await fetch('https://games.syncware.cc/games.json');
+        let r=await fetch('https://www.syncware.cc/games.json');
         if(!r.ok)throw 0;
         let d=await r.json();
         if(!d||!d.length){box.innerHTML='<div class="gload">No games available</div>';return}
